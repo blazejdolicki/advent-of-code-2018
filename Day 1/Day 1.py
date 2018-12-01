@@ -34,3 +34,4 @@ while not is_finished:
                 reached_frequencies.add(final_frequency)
         print(count)
     count+=1
+print("How many times went through the whole list: ",count)
