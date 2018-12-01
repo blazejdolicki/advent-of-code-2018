@@ -1,7 +1,3 @@
-from timeit import default_timer as timer
-
-start = timer()
-
 frequencies = open("input.txt").read().split("\n")
 init_freq = 0
 final_frequency = init_freq
@@ -38,7 +34,3 @@ while not is_finished:
                 reached_frequencies.add(final_frequency)
         print(count)
     count+=1
-
-# ...
-end = timer()
-print("Elapsed time",(end - start)) 
