@@ -1,5 +1,6 @@
 import re
 import pandas as pd
+from collections import defaultdict
 guard_logs = open("input.txt").read().split("\n")
 guard_dict = {}
 for log in guard_logs[:-1]:
@@ -7,35 +8,28 @@ for log in guard_logs[:-1]:
     event = str(re.search("\] (.*)", log).group(1))
     guard_dict[date] = event
 guard_logs = pd.Series(guard_dict).sort_index()
-print(guard_logs.shape)
 guard_naps={}
-print(guard_logs.index)
-print()
 counter=0
-print(guard_logs.tail())
+
 for i in guard_logs.index:
     log = guard_logs[i]
 
     if "Guard" in log:
         guard_id = int(re.search("#(.*) b",log).group(1))
         if not guard_id in guard_naps:
-            guard_naps[guard_id]={}
-            guard_naps[guard_id]["Total minutes"] = 0
-        print(log)
-        print(guard_id)
+            guard_naps[guard_id] = defaultdict(int)
+        # print(log)
+        # print(guard_id)
     if "falls asleep"==log:
-        print(counter)
+        # print(counter)
         start_nap = int(re.search(":(.*)",guard_logs.index[counter]).group(1))
     if "wakes up"==log:
         stop_nap = int(re.search(":(.*)",guard_logs.index[counter]).group(1))
         guard_naps[guard_id]['Total minutes'] += stop_nap-start_nap
         for j in range(start_nap,stop_nap):
-            if j in guard_naps[guard_id]:
-                guard_naps[guard_id][j] += 1
-            else:
-                guard_naps[guard_id][j] = 1
+            guard_naps[guard_id][j] += 1
     counter+=1
-print(guard_naps)
+# print(guard_naps)
 
 most_minutes_slept = 0
 most_sleepy_guard = 0
@@ -45,6 +39,7 @@ for guard in guard_naps:
         most_sleepy_guard = guard
 most_sleepy_minute = 0
 most_sleep = 0
+# Part 1
 for minute in guard_naps[most_sleepy_guard]:
     if minute!='Total minutes':
         if guard_naps[most_sleepy_guard][minute]>most_sleep:
@@ -65,9 +60,3 @@ for guard in guard_naps:
                 most_frequently_asleep_guard = guard
 print("Answer",most_frequently_asleep_guard*most_frequently_asleep_minute)
 
-# for each entry
-# get the number of guard
-# get start of his nap
-# get end
-# for this range, add minutes during which he was asleep as keys (or increment key if it's already there)
-#
