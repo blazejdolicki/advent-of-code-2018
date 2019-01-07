@@ -11,7 +11,8 @@ def reactPolymer(polymer):
         if case != case_next:
             if polymer[i].lower() == polymer[i+1].lower():
                 polymer = polymer.replace(polymer[i:i+2], "", 1)
-                i = max(-1,i-2)
+                i = max(0, i-1)
+                continue
         i += 1
     print("Length of the polymer in the end",len(polymer))
     return len(polymer)
@@ -23,7 +24,7 @@ reactPolymer(initial_polymer)
 letters = list(string.ascii_lowercase)
 shortest_polymer_length = 50000
 for i in letters:
-    print("Letter",i)
+    # print("Letter",i)
     polymer1 = initial_polymer.replace(i,"")
     polymer1 = polymer1.replace(i.upper(), "")
     new_polymer_length = reactPolymer(polymer1)
